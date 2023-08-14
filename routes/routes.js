@@ -10,7 +10,7 @@ routes.get('/', async (req, res) => {
 
         console.log(data)
 
-        res.status(200).json({ message: "Todo status updated successfully", data });
+        res.status(200).json({ message: "All todos get successfully", data });
     }
     catch (err) {
         res.status(400).json({ error: "Error occurred on the server side" });
@@ -24,7 +24,7 @@ routes.get('/:id', async(req, res) => {
 
         console.log(data)
 
-        res.status(200).json({ message: "Todo status updated successfully", data });
+        res.status(200).json({ message: "Single todo get successfully", data });
     }
     catch (err) {
         res.status(400).json({ error: "Error occurred on the server side" });
@@ -88,8 +88,16 @@ routes.put('/:id', async (req, res) => {
 });
 
 
-routes.delete('/:id', (req, res) => {
+routes.delete('/:id', async(req, res) => {
+    try {
+        const data = await Todo.deleteOne({ _id : req.params.id })
 
+
+        res.status(200).json({ message: "Single todo delete successfully"});
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
 })
 
 
