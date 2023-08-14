@@ -10,6 +10,16 @@ app.use(cors())
 
 const port = process.env.PORT
 
+mongoose.connect(process.env.MONGODB)
+.then(()=>{
+    console.log('Mongoose connected')
+})
+.catch((err)=>{
+    console.log(err)
+})
+
+
+
 app.listen(port,()=>{
     console.log(`PORT is running in ${port}`)
 })
