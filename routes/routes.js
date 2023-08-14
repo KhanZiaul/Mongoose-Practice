@@ -49,17 +49,24 @@ routes.post('/all', async (req, res) => {
 
 routes.put('/:id', async (req, res) => {
     try {
-        await Todo.updateOne({ _id: req.params.id }, {
-            $set: {
-                status: "inactive"
-            }
-        })
-        res.status(201).json({ message: "Successfully added new todo to the database" });
-    }
-    catch (err) {
+        const updatedTodo = await Todo.findByIdAndUpdate(
+            req.params.id,
+            { $set: { status: "inactive" } },
+            { new: true } // This option returns the updated document
+        );
+
+        if (!updatedTodo) {
+            return res.status(404).json({ error: "Todo not found" });
+        }
+
+        console.log(updatedTodo)
+
+        res.status(200).json({ message: "Todo status updated successfully", updatedTodo });
+    } catch (err) {
         res.status(400).json({ error: "Error occurred on the server side" });
     }
-})
+});
+
 
 routes.delete('/:id', (req, res) => {
 
