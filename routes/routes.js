@@ -4,8 +4,18 @@ const routes = express.Router()
 const todoSchema = require('../models/models')
 const Todo = new mongoose.model("Todo", todoSchema)
 
-routes.get('/', (req, res) => {
+routes.get('/', async (req, res) => {
+    try {
+        const data = await Todo.find({ status: 'active' }).limit(2).select({ _id: 0, date: 0 })
 
+        console.log(data)
+
+        res.status(200).json({ message: "Todo status updated successfully", data });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+    
 })
 
 routes.get('/:id', (req, res) => {
