@@ -15,10 +15,20 @@ routes.get('/', async (req, res) => {
     catch (err) {
         res.status(400).json({ error: "Error occurred on the server side" });
     }
-    
+
 })
 
-routes.get('/:id', (req, res) => {
+routes.get('/:id', async(req, res) => {
+    try {
+        const data = await Todo.find({ _id : req.params.id })
+
+        console.log(data)
+
+        res.status(200).json({ message: "Todo status updated successfully", data });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
 
 })
 
