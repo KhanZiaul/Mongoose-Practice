@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config()
+const routes = require('./routes/routes')
 const app= express()
 
 // middleware
@@ -19,6 +20,7 @@ mongoose.connect(process.env.MONGODB)
 })
 
 
+app.use('/todos',routes)
 
 app.listen(port,()=>{
     console.log(`PORT is running in ${port}`)
