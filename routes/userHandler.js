@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 const routes = express.Router()
 const userSchema = require('../models/userSchema')
 const User = new mongoose.model("User", userSchema)
@@ -33,7 +34,11 @@ routes.post('/login', async (req, res) => {
         if (user && user.length > 0) {
             const isValidPassword = await bcrypt.compare(req.body.password,user[0].password)
             if (isValidPassword) {
-                
+                const token = jwt.sign({
+                    user:user[0].username,
+                    id:user[0]._id
+                },process.env.JWT,{ expiresIn: '1d' })
+                res.status(200).send({token,mssage:"Login successful"})
             }
             else {
                 res.status(401).json({ error: "Authentication error" });
