@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = express.Router()
 const todoSchema = require('../models/schema')
+const userSchema = require('../models/userSchema')
 const Todo = new mongoose.model("Todo", todoSchema)
+const User = new mongoose.model("User", userSchema)
 const checkLogin =require('../middlewares/checkLogin')
 
 
@@ -116,26 +118,48 @@ routes.post('/', async (req, res) => {
     }
 });
 
+// one to one relational database post method
+
+routes.post('/oneToOne', checkLogin , async (req, res) => {
+    const newTodo = new Todo({
+        ...req.body,
+        user : req.id
+    });
+    try {
+        await newTodo.save();
+        res.status(201).json({ message: "Successfully added new todo to the database" });
+    } catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+});
+
+// one to many relational database post method
+
+routes.post('/oneToMany', checkLogin, async (req, res) => {
+    const newTodo = new Todo({
+        ...req.body,
+        user : req.id
+    });
+    try {
+        const todo = await newTodo.save();
+        await User.updateOne({
+            _id: req.id
+        },{
+            $push:{
+                todos:todo._id
+            }
+        })
+        
+        res.status(201).json({ message: "Successfully added new todo to the database" });
+    } catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+});
+
 routes.post('/all', async (req, res) => {
 
     try {
         await Todo.insertMany(req.body)
-        res.status(201).json({ message: "Successfully added new todo to the database" });
-    }
-    catch (err) {
-        res.status(400).json({ error: "Error occurred on the server side" });
-    }
-})
-
-// one to one relational database post method
-
-routes.post('/oneToOne', checkLogin , async (req, res) => {
-
-    try {
-        await Todo.insertMany({
-            ...req.body,
-            user : req.id
-        })
         res.status(201).json({ message: "Successfully added new todo to the database" });
     }
     catch (err) {
