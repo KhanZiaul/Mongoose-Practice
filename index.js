@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGODB)
 
 
 app.use('/todos',routes)
-app.use('/user',userRoutes)
+app.use('/users',userRoutes)
 
 app.listen(port,()=>{
     console.log(`PORT is running in ${port}`)
