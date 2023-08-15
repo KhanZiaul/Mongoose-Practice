@@ -24,4 +24,12 @@ todoSchema.methods = {
     }
 }
 
+// Statics methods
+
+todoSchema.statics = {
+    findNewTodo:function() {
+        return this.find({ title: /new/i });
+    }
+}
+
 module.exports = todoSchema
