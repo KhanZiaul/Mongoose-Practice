@@ -108,6 +108,19 @@ routes.post('/all', async (req, res) => {
     }
 })
 
+// one to one relational database
+
+routes.post('/all', async (req, res) => {
+
+    try {
+        await Todo.insertMany(req.body)
+        res.status(201).json({ message: "Successfully added new todo to the database" });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+})
+
 // routes.put('/:id', async (req, res) => {
 //     try {
 //         await Todo.updateOne({ _id: req.params.id }, {

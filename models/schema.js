@@ -1,5 +1,24 @@
 const mongoose = require('mongoose');
 
+// const todoSchema = new mongoose.Schema({
+//     title: {
+//         type: String,
+//         required: true
+//     },
+//     description: String,
+//     status: {
+//         type: String,
+//         enum: ['active', 'inactive']
+//     },
+//     date: {
+//         type: Date,
+//         default: Date.now
+//     }
+// })
+
+
+//  one to one relational database
+
 const todoSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -13,6 +32,10 @@ const todoSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    user:{
+            type: mongoose.Types.ObjectId, 
+            ref: 'User'
     }
 })
 
