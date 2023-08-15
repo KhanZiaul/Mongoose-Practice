@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
 // })
 
 
-//  one to one relational database
+//  one to one relational database schema
 
 const todoSchema = new mongoose.Schema({
     title: {

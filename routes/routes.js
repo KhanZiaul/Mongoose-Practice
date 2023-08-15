@@ -5,6 +5,7 @@ const todoSchema = require('../models/schema')
 const Todo = new mongoose.model("Todo", todoSchema)
 const checkLogin =require('../middlewares/checkLogin')
 
+
 routes.get('/',checkLogin, async (req, res) => {
     // console.log(req.user)
     // console.log(req.id)
@@ -20,6 +21,8 @@ routes.get('/',checkLogin, async (req, res) => {
     }
 
 })
+
+// one to one relational database get method
 
 routes.get('/oneToOne', checkLogin, async (req, res) => {
     try {
