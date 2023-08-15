@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = express.Router()
-const todoSchema = require('../models/models')
+const todoSchema = require('../models/schema')
 const Todo = new mongoose.model("Todo", todoSchema)
 
 routes.get('/', async (req, res) => {
@@ -17,6 +17,24 @@ routes.get('/', async (req, res) => {
     }
 
 })
+
+// Instance methods
+
+// ----------------------------------
+
+routes.get('/active', async (req, res) => {
+    try {
+        const todo = new Todo()
+        const data = await todo.findActive()
+        res.status(200).json({ message: "All todos get successfully", data });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+
+})
+
+// ------------------------------------------------------
 
 routes.get('/:id', async(req, res) => {
     try {
