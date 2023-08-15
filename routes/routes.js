@@ -110,10 +110,13 @@ routes.post('/all', async (req, res) => {
 
 // one to one relational database
 
-routes.post('/all', async (req, res) => {
+routes.post('/oneToOne', checkLogin , async (req, res) => {
 
     try {
-        await Todo.insertMany(req.body)
+        await Todo.insertMany({
+            ...req.body,
+            user : req.id
+        })
         res.status(201).json({ message: "Successfully added new todo to the database" });
     }
     catch (err) {
