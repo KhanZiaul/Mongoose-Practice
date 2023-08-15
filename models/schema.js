@@ -32,4 +32,12 @@ todoSchema.statics = {
     }
 }
 
+// Query Helpers methods
+
+todoSchema.query = {
+    byLanguage:function(language) {
+        return this.find({ title: new RegExp(language,"i") });
+    }
+}
+
 module.exports = todoSchema

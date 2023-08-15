@@ -53,6 +53,23 @@ routes.get('/newTodo', async (req, res) => {
 
 // ------------------------------------------------------
 
+// Query Helpers methods
+
+// ----------------------------------
+
+routes.get('/query', async (req, res) => {
+    try {
+        const data = await Todo.find().byLanguage("todo")
+        res.status(200).json({ message: "All todos get successfully", data });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+
+})
+
+// ------------------------------------------------------
+
 routes.get('/:id', async(req, res) => {
     try {
         const data = await Todo.find({ _id : req.params.id })
