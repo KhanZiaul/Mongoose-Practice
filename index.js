@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config()
 const routes = require('./routes/routes')
+const userRoutes = require('./routes/userHandler')
 const app= express()
 
 // middleware
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGODB)
 
 
 app.use('/todos',routes)
+app.use('/user',userRoutes)
 
 app.listen(port,()=>{
     console.log(`PORT is running in ${port}`)
