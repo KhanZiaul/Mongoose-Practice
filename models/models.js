@@ -16,4 +16,12 @@ const todoSchema = new mongoose.Schema({
     }
 })
 
+// Instance methods
+
+todoSchema.methods = {
+    findActive:function() {
+        return mongoose.model('Todo').find({ status:"active" });
+    }
+}
+
 module.exports = todoSchema
