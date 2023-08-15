@@ -6,12 +6,28 @@ const Todo = new mongoose.model("Todo", todoSchema)
 const checkLogin =require('../middlewares/checkLogin')
 
 routes.get('/',checkLogin, async (req, res) => {
-    console.log(req.user)
-    console.log(req.id)
+    // console.log(req.user)
+    // console.log(req.id)
     try {
         const data = await Todo.find({ status: 'active' }).limit(2).select({ _id: 0, date: 0 })
 
         console.log(data)
+
+        res.status(200).json({ message: "All todos get successfully", data });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
+    }
+
+})
+
+routes.get('/oneToOne', checkLogin, async (req, res) => {
+    try {
+        // const data = await Todo.find({ status: 'active' }).populate("user").select({ _id: 0, date: 0 }) //get all datas of user
+
+        // const data = await Todo.find({ status: 'active' }).populate("user","name username").select({ _id: 0, date: 0 }) //with user id
+
+        const data = await Todo.find({ status: 'active' }).populate("user","name username -_id").select({ _id: 0, date: 0 }) //without user id
 
         res.status(200).json({ message: "All todos get successfully", data });
     }
@@ -108,7 +124,7 @@ routes.post('/all', async (req, res) => {
     }
 })
 
-// one to one relational database
+// one to one relational database post method
 
 routes.post('/oneToOne', checkLogin , async (req, res) => {
 
@@ -123,6 +139,8 @@ routes.post('/oneToOne', checkLogin , async (req, res) => {
         res.status(400).json({ error: "Error occurred on the server side" });
     }
 })
+
+//  updateOne put method with no result
 
 // routes.put('/:id', async (req, res) => {
 //     try {
