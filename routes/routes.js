@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const routes = express.Router()
 const todoSchema = require('../models/schema')
 const Todo = new mongoose.model("Todo", todoSchema)
-const checkLogin =require('./middlewares/checkLogin')
+const checkLogin =require('../middlewares/checkLogin')
 
 routes.get('/',checkLogin, async (req, res) => {
     console.log(req.user)
