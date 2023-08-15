@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const routes = express.Router()
 const todoSchema = require('../models/schema')
 const Todo = new mongoose.model("Todo", todoSchema)
+const checkLogin =require('./middlewares/checkLogin')
 
-routes.get('/', async (req, res) => {
+routes.get('/',checkLogin, async (req, res) => {
+    console.log(req.user)
+    console.log(req.id)
     try {
         const data = await Todo.find({ status: 'active' }).limit(2).select({ _id: 0, date: 0 })
 

@@ -20,6 +20,16 @@ mongoose.connect(process.env.MONGODB)
     console.log(err)
 })
 
+// Error Handler
+
+const errorHandler = (err,req,res,next) => {
+    if(res.headersSent){
+        return next(err)
+    }
+    res.status(500).json({err:err})
+}
+
+app.use(errorHandler);
 
 app.use('/todos',routes)
 app.use('/users',userRoutes)
