@@ -42,6 +42,7 @@ routes.get('/oneToOne', checkLogin, async (req, res) => {
 
 })
 
+
 // Instance methods
 
 // ----------------------------------
@@ -149,7 +150,7 @@ routes.post('/oneToMany', checkLogin, async (req, res) => {
                 todos:todo._id
             }
         })
-        
+
         res.status(201).json({ message: "Successfully added new todo to the database" });
     } catch (err) {
         res.status(400).json({ error: "Error occurred on the server side" });

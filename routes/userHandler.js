@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const routes = express.Router()
 const userSchema = require('../models/userSchema')
 const User = new mongoose.model("User", userSchema)
+const checkLogin =require('../middlewares/checkLogin')
 
 //  Signup
 
@@ -49,6 +50,21 @@ routes.post('/login', async (req, res) => {
     }
     catch (err) {
         res.status(401).json({ error: "Authentication error" });
+    }
+
+})
+
+// one to many relational database post method
+
+routes.get('/oneToMany', checkLogin, async (req, res) => {
+    
+    try {
+        const data = await User.find({ username: req.user}).populate("todos")
+
+        res.status(200).json({ message: "All todos get successfully", data });
+    }
+    catch (err) {
+        res.status(400).json({ error: "Error occurred on the server side" });
     }
 
 })
